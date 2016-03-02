@@ -31,13 +31,6 @@ def animate(i, l1, l2, l3):
     return l1, l2, l3
 
 
-# Init only required for blitting to give a clean slate.
-# def init():
-#     line1.set_ydata(np.ma.array(x, mask=True))
-#     line2.set_ydata(np.ma.array(x, mask=True))
-#     line3.set_ydata(np.ma.array(x, mask=True))
-#     return line1, line2, line3
-
 ani = animation.FuncAnimation(fig, animate, np.arange(1, 628), fargs=(line1, line2, line3),
                               interval=25, blit=True)
 
