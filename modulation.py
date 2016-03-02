@@ -4,26 +4,32 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-x = np.arange(0, 2*np.pi, 0.01)
+x = np.arange(-2*np.pi, 2*np.pi, 0.01)
 inphase = np.sin(x)
 quadrature = np.cos(x)
 iq_sig = inphase + quadrature
 
-fig = plt.figure()
-line1, line2, line3, = plt.plot(x, inphase, 'r', x, quadrature, 'g', x, iq_sig, 'b')
-
-# f, (ax1, ax2, ax3) = plt.subplots(1, 3, sharex=True, sharey=True)
-# line1, = ax1.plot(x, inphase, 'r')
-# line2, = ax2.plot(x, quadrature, 'g')
-# line3, = ax3.plot(x, iq_sig, 'b')
-# ax1.grid(True)
-# ax2.grid(True)
-# ax3.grid(True)
+fig1 = plt.figure(1)
+line1p, line2p, line3p, = plt.plot(x, inphase, 'r', x, quadrature, 'g', x, iq_sig, 'b')
+fig2 = plt.figure(2)
+line1a, line2a, line3a, = plt.plot(x, inphase, 'r', x, quadrature, 'g', x, iq_sig, 'b')
 
 
-def animate(i, l1, l2, l3):
-    inphase = np.sin(x + i/100.0)
-    quadrature = np.cos(x + i/100.0)
+def animate_phase(i, l1, l2, l3):
+    inphase = np.cos(x + i*np.pi/100)
+    quadrature = np.cos(x)
+    iq_sig = inphase + quadrature
+    l1.set_ydata(inphase)  # update the data
+    # l2.set_ydata(quadrature)  # update the data
+    l3.set_ydata(iq_sig)  # update the data
+    return l1, l2, l3
+
+def animate_amplitude(i, l1, l2, l3):
+    if i < 2:
+        inphase = (1-i)*np.sin(x)
+    else:
+        inphase = (i-3)*np.sin(x)
+    quadrature = np.cos(x)
     iq_sig = inphase + quadrature
     l1.set_ydata(inphase)  # update the data
     # l2.set_ydata(quadrature)  # update the data
@@ -31,7 +37,12 @@ def animate(i, l1, l2, l3):
     return l1, l2, l3
 
 
-ani = animation.FuncAnimation(fig, animate, np.arange(1, 628), fargs=(line1, line2, line3),
+# ani = animation.FuncAnimation(fig1, animate_phase, np.arange(0, 2*np.pi, np.pi/2), fargs=(line1, line2, line3),
+#                               interval=25, blit=True)
+ani1 = animation.FuncAnimation(fig1, animate_phase, np.arange(0, 200), fargs=(line1p, line2p, line3p),
+                              interval=25, blit=True)
+
+ani2 = animation.FuncAnimation(fig2, animate_amplitude, np.arange(0, 4, 0.01), fargs=(line1a, line2a, line3a),
                               interval=25, blit=True)
 
 plt.show()
