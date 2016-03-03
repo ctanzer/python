@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 
 arr0 = np.array([0])
@@ -9,3 +10,15 @@ print(arr)
 label = ["0"]
 label = label + ["%d$\pi$" % i for i in range(1, 5)]
 print(label)
+
+real = np.arange(0, 2.05, .01)
+imag = np.sqrt(2**2 - real*real)
+
+plt.plot(real, imag)
+plt.grid(True)
+
+ticks = np.arange(0, 2.01, .05)
+plt.xticks(ticks)
+plt.yticks(ticks)
+
+plt.show()

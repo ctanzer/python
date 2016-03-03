@@ -47,12 +47,14 @@ arr1 = np.tile(arr1, 1000)
 inphase2 = np.append(arr0, arr1)
 inphase2 = np.append(inphase2, inphase2)
 inphase2 = np.roll(inphase2, 250)
+quadrature2 = np.roll(inphase2, 500)
 carrier = np.cos(x2)
+carrier90 = np.sin(x2)
 
 fig3 = plt.figure(3)
-plt.plot(x2, inphase2*carrier)
+plt.plot(x2, inphase2*carrier+quadrature2*carrier90)
 
-ticks = np.arange(-20*np.pi, 20*np.pi, 2*np.pi)
+ticks = np.arange(-20*np.pi, 21*np.pi, 2*np.pi)
 label = ["0"]
 label = ["%d$\pi$" % i for i in range(-20, 0, 2)] + label
 label = label + ["%d$\pi$" % i for i in range(1, 21, 2)]
